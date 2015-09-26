@@ -4,29 +4,45 @@ Initialize the main window, containing the manga catalog
 
 import sys
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
-class MainWindow(QWidget):
+
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.CMR_MW_init()
 
     def CMR_MW_init(self):
+        # Instantiate central widget for layouts
+        self.setCentralWidget(QWidget())
+
+        # Define widgets
         canvas = QGraphicsView()
-        okButton = QPushButton("OK")
-        cancelButton = QPushButton("Cancel")
+        nameLabel = QLabel('Name:')
+        nameField = QLineEdit()
+        okButton = QPushButton('Ok')
 
-        buttonsLayout = QHBoxLayout()
-        buttonsLayout.addStretch(1)
-        buttonsLayout.addwidget(okButton)
-        buttonsLayout.addwidget(cancelButton)
+        # Define actions and toolbar
+        searchAction = QAction('Show SearchBox', self)
+        searchAction.setShortcut('Alt+1')
 
-        mainLayout = QVBoxLayout()
-        mainLayout.addStretch(1)
-        mainLayout.addWidget(canvas)
-        mainLayout.addLayout(buttonsLayout)
+        self.toolbar = QToolBar('Toolbar')
+        self.toolbar.addAction(searchAction)
 
-        self.setLayout(mainLayout)
-        self.setGeometry(300, 300, 300, 150)
+        # Define searchbox
+        searchBox = QGridLayout()
+        searchBox.addWidget(nameLabel, 0, 0)
+        searchBox.addWidget(nameField, 0, 1)
+        searchBox.addWidget(okButton, 1, 1)
+
+        # Insert searchbox and canvas into main layout
+        mainBox = QHBoxLayout(self.centralWidget())
+        mainBox.insertLayout(0, searchBox)
+        mainBox.insertWidget(1, canvas, 1)
+
+        # Set window
+        self.setGeometry(300, 300, 700, 400)
         self.setWindowTitle('Community\'s Manga Reader')
         self.show()
 
