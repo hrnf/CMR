@@ -72,7 +72,7 @@ def download_page(series, volume, chapter, page, destination, tree = None):
         try:
             download_image(imgurl, destination + '.' + ext)
             return path
-        except http.client.HTTPException as ex:
+        except (http.client.HTTPException, urllib.error.URLError) as ex:
             print(ex)
         wtime = random.random() * (i - 1) + TIMEOUT
         print('Retrying in {} seconds'.format(wtime))
