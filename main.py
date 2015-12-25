@@ -1,8 +1,6 @@
 #!/usr/bin/python
-from gi.repository import Gtk
 
+from mainwindow import MainWindow
 
-win = Gtk.Window()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+class CMR():
+    mainwindow = MainWindow()
